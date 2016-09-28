@@ -4,7 +4,7 @@ import string
 import sys
 
 
-def get_digit_from_alpha(letter):
+def get_digit_from_alpha(alpha):
     vig_dig_dict = {}
     position = 0
 
@@ -12,7 +12,7 @@ def get_digit_from_alpha(letter):
         vig_dig_dict[letter] = position
         position += 1
 
-    return vig_dig_dict[letter]
+    return vig_dig_dict[alpha]
 
 
 def get_alpha_from_dig(digit):
@@ -36,7 +36,7 @@ def vigenere_encrypt():
     for letter in plaintext:
         if letter.isalpha():
             ciphertext.append(get_alpha_from_dig((get_digit_from_alpha(letter) +
-                                                  get_digit_from_alpha(key[key_position % len(key)]) % 26)))
+                                                  get_digit_from_alpha(key[key_position % len(key)])) % 26))
             key_position += 1
         elif letter.isspace():
             ciphertext.append(letter)
@@ -56,7 +56,7 @@ def vigenere_decrypt():
     for letter in ciphertext:
         if letter.isalpha():
             plaintext.append(get_alpha_from_dig((get_digit_from_alpha(letter) -
-                                                 get_digit_from_alpha(key[key_position % len(key)]) % 26)))
+                                                 get_digit_from_alpha(key[key_position % len(key)])) % 26))
             key_position += 1
         elif letter.isspace():
             plaintext.append(letter)
@@ -81,6 +81,9 @@ def main():
 
     operations[operation]()
 
+# TODO add the ability for command line arguments - encrypt or decrypt
+# TODO add the ability to read the message and key from file
+# TODO add the ability to write the ciphertext or plaintext to file
 
 if __name__ == '__main__':
     main()
