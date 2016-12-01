@@ -9,15 +9,14 @@ class VigenereMachine:
 
     def __init__(self, plaintext=None, cipher_key=None, ciphertext=None):
         if plaintext:
-            try:
-                self._plaintext = re.sub(r'\d+', '', plaintext)
-            except TypeError:
-                print('The plaintext must be a string!')
-        try:
-            self._cipher_key = re.sub(r'\d+', '', cipher_key)
-        except TypeError:
-            print('The cipher key must be a string!')
-        self._ciphertext = ciphertext
+            self._plaintext = plaintext.lower()
+        if cipher_key:
+            if not cipher_key.isalpha():
+                raise ValueError('The key may only contain alphabetic characters')
+            else:
+                self._cipher_key = cipher_key.lower()
+        if ciphertext:
+            self._ciphertext = ciphertext.lower()
 
     @property
     def plaintext(self):
@@ -25,7 +24,7 @@ class VigenereMachine:
 
     @plaintext.setter
     def plaintext(self, new_text):
-        self._plaintext = new_text
+        self._plaintext = new_text.lower()
 
     @property
     def cipher_key(self):
@@ -33,7 +32,18 @@ class VigenereMachine:
 
     @cipher_key.setter
     def cipher_key(self, new_key):
-        self._cipher_key = new_key
+        if not new_key.isalpha():
+            raise ValueError('The key may only contain alphabetic characters')
+        else:
+            self._cipher_key = new_key.lower()
+
+    @property
+    def ciphertext(self):
+        return self._ciphertext
+
+    @ciphertext.setter
+    def ciphertext(self, new_text):
+        self._ciphertext = new_text.lower()
 
     def encrypt(self):
         self._ciphertext = []
